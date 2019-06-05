@@ -21,8 +21,15 @@ def toLowecase(text):
 def vectorRepresent(model,data):
 	# Pre-initialising empty numpy array for speed.
 	# Menggunakan panjang vektor sama dengan 400.
-	index2word_set = set(model.wv.index2word)
-	
+
+	# remove duplicate data
+	print(data.shape)
+	data=data.drop_duplicates(subset=['text'], keep=False)
+	print(data)
+	print(data.shape)
+	exit()
+
+	index2word_set = set(model.wv.index2word)	
 	vectorData=[]
 	for index,row in data.iterrows():
 		kalimat=row['text']
@@ -30,17 +37,23 @@ def vectorRepresent(model,data):
 		nwords = 0
 
 		for word in kalimat.split():
-#			print(word)
         		if word in index2word_set:
             			nwords = nwords + 1
             			featureVec = np.add(featureVec,model[word])
 		# Dividing the result by number of words to get average
 		featureVec = np.divide(featureVec, nwords)
-		vectorData.append({'vector':featureVec,'class':row['class']})
-	return pandas.DataFrame(vectorData)
+		localIndex=0
+		localDict={}
+		for x in np.nditer(featureVec):
+			localDict[localIndex]=x
+			localIndex+=1
+		localDict['kelas']=row['class']
+		vectorData.append(localDict)
 
-#for index,row in data.iterrows():
-	#	print(row['text'],'\n')
+	gammaDataframe=pandas.DataFrame(vectorData)
+	gammaDataframe=gammaDataframe.astype('float64')
+	gammaDataframe.kelas = gammaDataframe.kelas.astype('int64')
+	return gammaDataframe
 
 data=pandas.read_csv('news_data.csv')
 data['text']=data['text'].apply(toLowecase)
