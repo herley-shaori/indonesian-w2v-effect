@@ -1,8 +1,8 @@
 import pandas
 
-data=pandas.read_csv('news_data_2.csv')
-kalimat_panjang=data['text'].str.cat(sep='')
-with open("news_data_7.txt", "w") as text_file:
+data=pandas.read_csv('news_data_6.csv')
+kalimat_panjang=data['teks'].str.cat(sep='')
+with open("news_data_8.txt", "w") as text_file:
     text_file.write(kalimat_panjang)
 
 import multiprocessing
@@ -20,8 +20,8 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s')
 logging.root.setLevel(level=logging.INFO)
 logger.info("running %s" % ' '.join(sys.argv))
 
-namaFileInput = "news_data_7.txt"
-namaFileOutput = "hoax_case"
+namaFileInput = "news_data_8.txt"
+namaFileOutput = "hoax_en_case"
 
 model = Word2Vec(LineSentence(namaFileInput), size=400, window=5, min_count=5, workers=multiprocessing.cpu_count())
 

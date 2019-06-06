@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import GaussianNB
 
-data=pandas.read_csv('vector_data.csv')
+data=pandas.read_csv('en_vector_data.csv')
 a_data=data['kelas']
 b_data=data.drop('kelas',1)
 X_train, X_test, y_train, y_test = train_test_split(b_data, a_data, test_size=0.33, random_state=100
@@ -61,3 +61,4 @@ print('Gaussian-NB')
 print(classification_report(y_test, y_pred))
 print('-----------------------------------------')
 
+ 

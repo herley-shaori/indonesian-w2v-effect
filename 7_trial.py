@@ -24,14 +24,14 @@ def vectorRepresent(model,data):
 
 	# remove duplicate data
 	print(data.shape)
-	data=data.drop_duplicates(subset=['text'], keep=False)
+	data=data.drop_duplicates(subset=['teks'], keep=False)
 	print(data)
 	print(data.shape)
 
 	index2word_set = set(model.wv.index2word)	
 	vectorData=[]
 	for index,row in data.iterrows():
-		kalimat=row['text']
+		kalimat=row['teks']
 		featureVec = np.zeros(400,dtype="float32")
 		nwords = 0
 
@@ -46,7 +46,7 @@ def vectorRepresent(model,data):
 		for x in np.nditer(featureVec):
 			localDict[localIndex]=x
 			localIndex+=1
-		localDict['kelas']=row['class']
+		localDict['kelas']=row['kelas']
 		vectorData.append(localDict)
 
 	gammaDataframe=pandas.DataFrame(vectorData)
@@ -65,3 +65,4 @@ vectorDataframe=vectorRepresent(model,data)
 #data.to_csv('news_data_2.csv',index=False)
 vectorDataframe.to_csv('en_vector_data.csv',index=False)
 
+ 
